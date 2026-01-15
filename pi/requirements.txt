@@ -1,0 +1,9 @@
+customtkinter
+pyserial
+opencv-python
+pillow
+numpy
+pandas
+matplotlib
+scipy
+tk
