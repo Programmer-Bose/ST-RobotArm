@@ -197,7 +197,7 @@ class SmartRandomSorter(ctk.CTk):
 
     def sorting_loop(self):
         print("Started Sorting Loop")
-        self.move_robot([90,90,90,90,90,0], 2.0) # Home
+        self.move_robot([90,145,12,90,7,0], 2.0) # Home
         
         while self.is_running:
             # Check 1 -> 2 -> 3
@@ -238,7 +238,7 @@ class SmartRandomSorter(ctk.CTk):
                     self.move_robot(place, 1.0)
                     
                     # 6. Home
-                    self.move_robot([90,90,90,90,90,0], 2.0)
+                    self.move_robot([90,145,12,90,7,0], 2.0)
                     
                     # Wait for scene to settle
                     time.sleep(1.5)
