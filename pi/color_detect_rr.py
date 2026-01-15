@@ -322,14 +322,36 @@ class ColorSorterV3(ctk.CTk):
             self.cbox_ports.set(port_list[0])
 
     def connect_serial(self):
+        # Use the safer logic from rec_replay.py
         try:
-            self.ser = serial.Serial(self.cbox_ports.get(), BAUD_RATE)
-            self.ser.dtr = False; self.ser.rts = False
+            port = self.cbox_ports.get()
+            
+            self.ser = serial.Serial()
+            self.ser.port = port
+            self.ser.baudrate = BAUD_RATE
+            
+            # Prevent Reset
+            self.ser.dtr = False 
+            self.ser.rts = False
+            
+            self.ser.open()
+            
+            # Double check
+            self.ser.dtr = False 
+            self.ser.rts = False
+            
             time.sleep(2)
+            self.ser.reset_input_buffer()
+            
             self.log("Connected.")
             self.btn_conn.configure(state="disabled", text="LINKED")
             self.btn_auto.configure(state="normal", fg_color="#D97C23")
-        except: self.log("Connect Failed")
+            
+            # OPTIONAL: Lock motors immediately if you have a torque function
+            # self.set_torque_logic(True) 
+            
+        except Exception as e:
+            self.log(f"Connect Failed: {e}")
 
     def move_motor(self, mid, val):
         self.joints[mid] = int(val)
